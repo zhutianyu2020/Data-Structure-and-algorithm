@@ -9,13 +9,13 @@
 #define DataType char  /* vertext's info  */
 int* visited; /* Node: visited flag with dynamic array, good idea ! */
 /* init queue for bfs */
-struct _node                         //±ß½Úµã
+struct _node                         //è¾¹èŠ‚ç‚¹
 {
-    int v_num;                      //¸Ã±ßËùÖ¸Ïò½ÚµãµÄÎ»ÖÃ 
-    struct _node* next;            //Ö¸ÏòÏÂÒ»Ìõ±ßµÄÖ¸Õë
+    int v_num;                      //è¯¥è¾¹æ‰€æŒ‡å‘èŠ‚ç‚¹çš„ä½ç½® 
+    struct _node* next;            //æŒ‡å‘ä¸‹ä¸€æ¡è¾¹çš„æŒ‡é’ˆ
 };
 typedef struct _node node, * pnode;
-struct _queue                           //¶ÓÁĞ
+struct _queue                           //é˜Ÿåˆ—
 {
     pnode front; 
     pnode rear;
@@ -24,14 +24,14 @@ typedef struct _queue queue, * pqueue;
 
 struct _graph
 {
-    DataType* vexs;                 //¶¥µã±í
-    int arcs[MAX_VEX][MAX_VEX];     //ÁÚ½Ó¾ØÕó
+    DataType* vexs;                 //é¡¶ç‚¹è¡¨
+    int arcs[MAX_VEX][MAX_VEX];     //é‚»æ¥çŸ©é˜µ
     int vexnum, arcnum;
 };
 typedef struct _graph graph, * pgraph;
 
-/* operation of queue */            //¶ÓÁĞ²Ù×÷
-queue init_queue()      //´´½¨¶ÓÁĞ                 
+/* operation of queue */            //é˜Ÿåˆ—æ“ä½œ
+queue init_queue()      //åˆ›å»ºé˜Ÿåˆ—                 
 {
     queue qu;
     qu.front = qu.rear = (pnode)malloc(sizeof(node));
@@ -51,7 +51,7 @@ int en_queue(pqueue pqu, int v_num)
     pqu->rear->next = pn;
     pqu->rear = pqu->rear->next;
 }
-int isempty_queue(pqueue pqu)     //ÅĞ¶Ï¶ÓÁĞÊÇ·ñÎª¿Õ
+int isempty_queue(pqueue pqu)     //åˆ¤æ–­é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º
 {
     if (pqu->front == pqu->rear)
         return 1;
@@ -70,7 +70,7 @@ int de_queue(pqueue pqu)
     free(pn);
     return d;
 }
-int locate(graph g, DataType data)                //È·¶¨¶¥µãÔÚÍ¼ÖĞµÄÎ»ÖÃ
+int locate(graph g, DataType data)                //ç¡®å®šé¡¶ç‚¹åœ¨å›¾ä¸­çš„ä½ç½®
 {
     int i;
     for (i = 0; i < g.vexnum; i++)
@@ -78,21 +78,21 @@ int locate(graph g, DataType data)                //È·¶¨¶¥µãÔÚÍ¼ÖĞµÄÎ»ÖÃ
             return i;
     return -1;
 }
-graph create_graph()          //´´½¨ÎŞÏîÍø
+graph create_graph()          //åˆ›å»ºæ— é¡¹ç½‘
 {
     int i, j, w, s1, s2;
     DataType ch1, ch2, tmp;
     graph g;
-    printf("ÇëÊäÈë×Ü¶¥µãÊıºÍ×Ü±ßÊı:");
+    printf("è¯·è¾“å…¥æ€»é¡¶ç‚¹æ•°å’Œæ€»è¾¹æ•°:");
     scanf("%d %d", &g.vexnum, &g.arcnum);
     tmp = getchar();
     g.vexs = (DataType*)malloc(sizeof(DataType));
     if (g.vexs == NULL)
         exit(1);
-    printf("ÇëÊäÈë%d¸ö¶¥µãµÄÖµ\n", g.vexnum);
+    printf("è¯·è¾“å…¥%dä¸ªé¡¶ç‚¹çš„å€¼\n", g.vexnum);
     for (i = 0; i < g.vexnum; i++)
     {
-        printf("µÚ%d¸ö¶¥µã:", i);
+        printf("ç¬¬%dä¸ªé¡¶ç‚¹:", i);
         scanf("%c", &g.vexs[i]);
         tmp = getchar();
         //visited[i]=0;
@@ -102,16 +102,16 @@ graph create_graph()          //´´½¨ÎŞÏîÍø
             g.arcs[i][j] = INFINITY;
     for (i = 0; i < g.arcnum; i++)
     {   
-        printf("ÇëÊäÈëµÚ%dÌõ±ßÒÀ¸½µÄÁ½¸ö¶¥µã¼°È¨Öµ:\n", i);
+        printf("è¯·è¾“å…¥ç¬¬%dæ¡è¾¹ä¾é™„çš„ä¸¤ä¸ªé¡¶ç‚¹åŠæƒå€¼:\n", i);
         scanf("%c %c %d", &ch1, &ch2, &w);
         tmp = getchar();
-        s1 = locate(g, ch1);        //È·¶¨ch1¶¥µãÔÚÍ¼ÖĞµÄÎ»ÖÃ
-        s2 = locate(g, ch2);        //È·¶¨ch2¶¥µãÔÚÍ¼ÖĞµÄÎ»ÖÃ
-        g.arcs[s1][s2] = g.arcs[s2][s1] = w; //ÖÃ<ch1,ch2>µÄ¶Ô³Æ»¡<ch2,ch1>
+        s1 = locate(g, ch1);        //ç¡®å®šch1é¡¶ç‚¹åœ¨å›¾ä¸­çš„ä½ç½®
+        s2 = locate(g, ch2);        //ç¡®å®šch2é¡¶ç‚¹åœ¨å›¾ä¸­çš„ä½ç½®
+        g.arcs[s1][s2] = g.arcs[s2][s1] = w; //ç½®<ch1,ch2>çš„å¯¹ç§°å¼§<ch2,ch1>
     }
     return g;
 }
-int firstvex_graph(graph g, int k)//·µ»Ø¶¥µãkµÄµÚÒ»¸öÁÚ½Ó¶¥µãµÄË÷Òı£¬Ê§°ÜÔò·µ»Ø-1
+int firstvex_graph(graph g, int k)//è¿”å›é¡¶ç‚¹kçš„ç¬¬ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„ç´¢å¼•ï¼Œå¤±è´¥åˆ™è¿”å›-1
 {
     int i;
     if (k >= 0 && k < g.vexnum)
@@ -120,7 +120,7 @@ int firstvex_graph(graph g, int k)//·µ»Ø¶¥µãkµÄµÚÒ»¸öÁÚ½Ó¶¥µãµÄË÷Òı£¬Ê§°ÜÔò·µ»Ø-
                 return i;
     return -1;
 }
-int nextvex_graph(graph g, int i, int j)//·µ»Ø¶¥µãiÏà¶ÔÓëjµÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄË÷Òı£¬Ê§°ÜÔò·µ»Ø-1
+int nextvex_graph(graph g, int i, int j)//è¿”å›é¡¶ç‚¹iç›¸å¯¹ä¸jçš„ä¸‹ä¸€ä¸ªé‚»æ¥é¡¶ç‚¹çš„ç´¢å¼•ï¼Œå¤±è´¥åˆ™è¿”å›-1
 {
     int k;
     if (i >= 0 && i < g.vexnum && j >= 0 && j < g.vexnum) {
@@ -130,7 +130,7 @@ int nextvex_graph(graph g, int i, int j)//·µ»Ø¶¥µãiÏà¶ÔÓëjµÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄË÷Òı
       }
     return -1;
 }
- void dfs(graph g, int k)  //Éî¶ÈÓÅÏÈËÑËØ
+ void dfs(graph g, int k)  //æ·±åº¦ä¼˜å…ˆæœç´ 
 {
     int i;
     if (k == -1)
@@ -148,7 +148,7 @@ int nextvex_graph(graph g, int i, int j)//·µ»Ø¶¥µãiÏà¶ÔÓëjµÄÏÂÒ»¸öÁÚ½Ó¶¥µãµÄË÷Òı
                 dfs(g, i);
     }
 }
-void bfs(graph g)       //¹ã¶ÈÓÅÏÈËÑË÷
+void bfs(graph g)       //å¹¿åº¦ä¼˜å…ˆæœç´¢
 {
     int i, j, k;
     queue qu;
@@ -178,32 +178,32 @@ int main ()
     int i = 0;
     graph g;
     while (1) {
-    printf("\t²Ëµ¥\n");
-    printf("1.ÁÚ½Ó¾ØÕó·¨´´½¨ÎŞÏòÍø\n");
-    printf("2.Éî¶ÈÓÅÏÈËÑË÷\n");
-    printf("3.¹ã¶ÈÓÅÏÈËÑË÷\n");
-    printf("4.ÍË³ö³ÌĞò\n\n");
-    printf("ÇëÑ¡Ôñ:");
+    printf("\tèœå•\n");
+    printf("1.é‚»æ¥çŸ©é˜µæ³•åˆ›å»ºæ— å‘ç½‘\n");
+    printf("2.æ·±åº¦ä¼˜å…ˆæœç´¢\n");
+    printf("3.å¹¿åº¦ä¼˜å…ˆæœç´¢\n");
+    printf("4.é€€å‡ºç¨‹åº\n\n");
+    printf("è¯·é€‰æ‹©:");
     int choose=0;
     scanf(" %d", &choose);
     switch (choose)
     {
         case 1:
             g = create_graph();
-            printf("´´½¨³É¹¦\n");
+            printf("åˆ›å»ºæˆåŠŸ\n");
             visited = (int*)malloc(g.vexnum * sizeof(int));
             break;
         case 2:
             for (i = 0; i < g.vexnum; i++)
                 visited[i] = 0;
-            printf("Éî¶ÈÓÅÏÈËÑË÷½á¹û:\n");
+            printf("æ·±åº¦ä¼˜å…ˆæœç´¢ç»“æœ:\n");
             dfs(g,-1);
             printf("\n\n");
             break;
         case 3:
             for (i = 0; i < g.vexnum; i++)
                 visited[i] = 0;
-            printf("¹ã¶ÈÓÅÏÈËÑË÷½á¹û:\n");
+            printf("å¹¿åº¦ä¼˜å…ˆæœç´¢ç»“æœ:\n");
             bfs(g);
             printf("\n\n");
             break;
@@ -216,24 +216,3 @@ int main ()
     }
 }
 
-/*int main()
-{
-   // int i;
-    //graph g;
-   // visited = (int*)malloc(g.vexnum * sizeof(int));
-
-    
-    printf("/n/n dfs:");
-
-    dfs(g, -1);
-    for (i = 0; i < g.vexnum; i++)
-        visited[i] = 0;
-    printf("/n bfs:");
-    bfs(g);
-
-    if (visited)
-        free(visited);
-    printf("/n");
-
-    system("PAUSE");
-}*/
